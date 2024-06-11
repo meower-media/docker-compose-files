@@ -1,0 +1,57 @@
+services:
+  mongo:
+    image: mongodb/mongodb-community-server
+    hostname: mongo
+    volumes:
+      - "/meower-data/mongo:/data"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=/run/secrets/mongo_admin_password
+    networks:
+      - meower
+    deploy:
+      mode: global
+      endpoint_mode: vip
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      update_config:
+        parallelism: 1
+        delay: 5s
+        failure_action: pause
+        monitor: 5s
+        order: stop-first
+  postgres:
+    image: postgres
+    hostname: postgres
+    volumes:
+      - /meower-data/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=/run/secrets/postgres_admin_password
+    deploy:
+      mode: global
+      endpoint_mode: vip
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      update_config:
+        parallelism: 1
+        delay: 5s
+        failure_action: pause
+        monitor: 5s
+        order: stop-first
+
+networks:
+  meower:
+    external: true
+
+secrets:
+  mongo_root_password:
+    external: true
+  postgres_admin_password:
+    external: true
