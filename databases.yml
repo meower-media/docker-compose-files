@@ -9,6 +9,8 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=/run/secrets/mongo_admin_password
     networks:
       - meower
+    ports:
+      "27017:27017"
     deploy:
       mode: global
       endpoint_mode: vip
@@ -31,6 +33,10 @@ services:
     environment:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=/run/secrets/postgres_admin_password
+    networks:
+      - meower
+    ports:
+      "27017:27017"
     deploy:
       mode: global
       endpoint_mode: vip
