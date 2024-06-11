@@ -14,7 +14,6 @@ services:
       - "27017:27017"
     deploy:
       mode: global
-      endpoint_mode: dnsrr
       restart_policy:
         condition: on-failure
         delay: 5s
@@ -43,7 +42,6 @@ services:
       - "5432:5432"
     deploy:
       mode: global
-      endpoint_mode: dnsrr
       restart_policy:
         condition: on-failure
         delay: 5s
