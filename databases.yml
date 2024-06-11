@@ -6,6 +6,7 @@ services:
     volumes:
       - "/meower-data/mongo:/data"
       - "/meower-data/mongo/mongod.conf:/etc/mongod.conf"
+      - "/meower-data/mongo/mongod.key:/etc/mongod.key"
     environment:
       - MONGODB_INITDB_ROOT_USERNAME=admin
       - MONGODB_INITDB_ROOT_PASSWORD_FILE=/run/secrets/mongo_admin_password
