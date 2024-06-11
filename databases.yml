@@ -58,7 +58,7 @@ networks:
     external: true
 
 secrets:
-  mongo_root_password:
+  mongo_admin_password:
     external: true
   postgres_admin_password:
     external: true
