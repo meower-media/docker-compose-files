@@ -2,6 +2,7 @@ version: "3.8"
 services:
   mongo:
     image: mongodb/mongodb-community-server
+    command: --config /etc/mongod.conf
     hostname: mongo
     volumes:
       - "/meower-data/mongo:/data"
