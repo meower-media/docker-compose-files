@@ -6,7 +6,7 @@ services:
         environment:
             REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /data
         volumes:
-            - ./data:/data
+            - /mnt/meower/registry:/data
         deploy:
             mode: replicated
             replicas: 1
