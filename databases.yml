@@ -7,7 +7,7 @@ services:
       - "/meower-data/mongo:/data"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=/run/secrets/mongo_admin_password
+      - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/mongo_admin_password
     networks:
       - meower
     ports:
@@ -37,7 +37,7 @@ services:
       - /meower-data/postgres:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=/run/secrets/postgres_admin_password
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_admin_password
     networks:
       - meower
     ports:
