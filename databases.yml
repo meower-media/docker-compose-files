@@ -2,12 +2,13 @@ version: "3.8"
 services:
   mongo:
     image: mongodb/mongodb-community-server
+    command: --bind_ip 0.0.0.0 --port 27017 --replSet rs0
     hostname: mongo
     volumes:
       - "/meower-data/mongo:/data"
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/mongo_admin_password
+      - MONGODB_INITDB_ROOT_USERNAME=admin
+      - MONGODB_INITDB_ROOT_PASSWORD_FILE=/run/secrets/mongo_admin_password
     networks:
       - meower
     ports:
