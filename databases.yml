@@ -26,6 +26,9 @@ services:
         failure_action: pause
         monitor: 5s
         order: stop-first
+      placement:
+        constraints:
+          - node.labels.zone == mike
   postgres:
     image: postgres
     hostname: postgres
@@ -52,6 +55,9 @@ services:
         failure_action: pause
         monitor: 5s
         order: stop-first
+      placement:
+        constraints:
+          - node.labels.zone == mike
 
 networks:
   meower:
