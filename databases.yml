@@ -13,7 +13,9 @@ services:
     networks:
       - meower
     ports:
-      - "27017:27017"
+      - target: 27017
+        published: 27017
+        mode: host
     secrets:
       - mongo_admin_password
     deploy:
