@@ -9,6 +9,8 @@ services:
             REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /data
         volumes:
             - /mnt/meower/registry:/data
+        networks:
+            - meower
         ports:
             - "5000:5000"
         deploy:
