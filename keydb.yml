@@ -5,6 +5,8 @@ services:
     hostname: keydb
     volumes:
       - "/mnt/meower/keydb/keydb.conf:/etc/keydb/keydb.conf"
+    networks:
+      - meower_keydb
     ports:
       - "6379:6379"
     deploy:
@@ -21,3 +23,7 @@ services:
         failure_action: pause
         monitor: 10s
         order: stop-first
+
+networks:
+  meower_keydb:
+    external: true
