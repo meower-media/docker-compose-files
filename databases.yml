@@ -11,7 +11,7 @@ services:
     networks:
       - meower
     ports:
-      "27017:27017"
+      - "27017:27017"
     deploy:
       mode: global
       endpoint_mode: vip
@@ -37,7 +37,7 @@ services:
     networks:
       - meower
     ports:
-      "5432:5432"
+      - "5432:5432"
     deploy:
       mode: global
       endpoint_mode: vip
