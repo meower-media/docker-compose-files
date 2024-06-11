@@ -3,21 +3,21 @@ services:
   keydb:
     image: eqalpha/keydb
     hostname: keydb
-  volumes:
-    - "/mnt/meower/keydb/keydb.conf:/etc/keydb/keydb.conf"
-  ports:
-    - "6379:6379"
-  deploy:
-    mode: global
-    endpoint_mode: vip
-    restart_policy:
-      condition: on-failure
-      delay: 5s
-      max_attempts: 3
-      window: 120s
-    update_config:
-      parallelism: 1
-      delay: 10s
-      failure_action: pause
-      monitor: 10s
-      order: stop-first
+    volumes:
+      - "/mnt/meower/keydb/keydb.conf:/etc/keydb/keydb.conf"
+    ports:
+      - "6379:6379"
+    deploy:
+      mode: global
+      endpoint_mode: vip
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: pause
+        monitor: 10s
+        order: stop-first
