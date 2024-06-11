@@ -12,6 +12,8 @@ services:
       - meower
     ports:
       - "27017:27017"
+    secrets:
+      - mongo_admin_password
     deploy:
       mode: global
       restart_policy:
@@ -40,6 +42,8 @@ services:
       - meower
     ports:
       - "5432:5432"
+    secrets:
+      - postgres_admin_password
     deploy:
       mode: global
       restart_policy:
