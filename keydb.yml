@@ -1,17 +1,17 @@
-version: "3.8"
 services:
   keydb:
     image: eqalpha/keydb
     hostname: keydb
     volumes:
-      - "/mnt/meower/keydb/keydb.conf:/etc/keydb/keydb.conf"
+      - "/meower-data/env/keydb.conf:/etc/keydb/keydb.conf"
     networks:
       - meower_keydb
     ports:
-      - "6379:6379"
+      - target: 6379
+        published: 6379
+        mode: host
     deploy:
       mode: global
-      endpoint_mode: vip
       restart_policy:
         condition: on-failure
         delay: 5s
