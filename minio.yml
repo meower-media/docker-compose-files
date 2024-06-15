@@ -1,0 +1,57 @@
+services:
+  us_east_1:
+    image: minio/minio
+    hostname: s3_us_east_1
+    command: server /data --console-address ":9001"
+    env_file: /meower-data/env/s3.env
+    volumes:
+      - /meower-data/s3:/data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: pause
+        monitor: 10s
+        order: stop-first
+      placement:
+        constraints:
+          - node.labels.zone == us_east_1
+  us_west_1:
+    image: minio/minio
+    hostname: s3_us_west_1
+    command: server /data --console-address ":9001"
+    env_file: /meower-data/env/s3.env
+    volumes:
+      - /meower-data/s3:/data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: pause
+        monitor: 10s
+        order: stop-first
+      placement:
+        constraints:
+          - node.labels.zone == us_west_1
+
+networks:
+  meower_s3:
+    external: true
