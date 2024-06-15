@@ -4,6 +4,7 @@ services:
     hostname: keydb
     volumes:
       - "/meower-data/env/keydb.conf:/etc/keydb/keydb.conf"
+      - "/meower-data/logs/keydb:/etc/keydb/logs"
     networks:
       - meower_keydb
     ports:
