@@ -10,7 +10,7 @@ services:
         published: 5500
         mode: host
     deploy:
-      mode: global
+      replicas: 2
       restart_policy:
         condition: on-failure
         delay: 5s
@@ -25,11 +25,15 @@ services:
       placement:
         constraints:
           - node.labels.uploads == yes
+        preferences:
+          - spread: node.labels.zone
 
   cf:
     image: cloudflare/cloudflared
     command: tunnel run
     env_file: /meower-data/env/uploads_cf.env
+    depends_on:
+      - app
     networks:
       - meower_uploads
     deploy:
