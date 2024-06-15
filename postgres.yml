@@ -1,0 +1,29 @@
+services:
+  postgres:
+    image: postgres
+    hostname: postgres
+    env_file: /meower-data/env/postgres.env
+    volumes:
+      - /meower-data/postgres:/var/lib/postgresql/data
+    networks:
+      - meower_uploads
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: pause
+        monitor: 10s
+        order: stop-first
+      placement:
+        constraints:
+          - node.labels.zone == us_east_1
+
+networks:
+  meower_uploads:
+    external: true

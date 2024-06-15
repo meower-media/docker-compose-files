@@ -1,15 +1,16 @@
 services:
-  us_east_1:
-    image: minio/minio
-    hostname: s3_us_east_1
-    command: server /data --console-address ":9001"
-    env_file: /meower-data/env/s3.env
-    volumes:
-      - /meower-data/s3:/data
+  uploads:
+    image: 100.80.1.1:5000/uploads
+    hostname: uploads
+    env_file: /meower-data/env/uploads.env
     networks:
       - meower_uploads
+    ports:
+      - target: 5500
+        published: 5500
+        mode: host
     deploy:
-      replicas: 1
+      mode: global
       restart_policy:
         condition: on-failure
         delay: 5s
@@ -23,18 +24,16 @@ services:
         order: stop-first
       placement:
         constraints:
-          - node.labels.zone == us_east_1
-  us_west_1:
-    image: minio/minio
-    hostname: s3_us_west_1
-    command: server /data --console-address ":9001"
-    env_file: /meower-data/env/s3.env
-    volumes:
-      - /meower-data/s3:/data
+          - node.labels.uploads
+
+  cf:
+    image: cloudflare/cloudflared
+    command: tunnel run
+    env_file: /meower-data/env/uploads_cf.env
     networks:
       - meower_uploads
     deploy:
-      replicas: 1
+      mode: global
       restart_policy:
         condition: on-failure
         delay: 5s
@@ -48,7 +47,7 @@ services:
         order: stop-first
       placement:
         constraints:
-          - node.labels.zone == us_west_1
+          - node.labels.uploads
 
 networks:
   meower_uploads:
