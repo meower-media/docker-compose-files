@@ -24,7 +24,7 @@ services:
         order: stop-first
       placement:
         constraints:
-          - node.labels.uploads
+          - node.labels.uploads == yes
 
   cf:
     image: cloudflare/cloudflared
@@ -47,7 +47,7 @@ services:
         order: stop-first
       placement:
         constraints:
-          - node.labels.uploads
+          - node.labels.uploads == yes
 
 networks:
   meower_uploads:
