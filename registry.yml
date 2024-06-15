@@ -1,9 +1,27 @@
 services:
-    registry:
-        image: registry:2
-        environment:
-            REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /data
-        volumes:
-            - /mnt/meower/registry:/data
-        ports:
-            - "5000:5000"
+  registry:
+    image: registry:2
+    environment:
+      REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /data
+    volumes:
+      - /meower-data/registry:/data
+    ports:
+      - target: 5000
+        published: 5000
+        mode: host
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: pause
+        monitor: 10s
+        order: stop-first
+      placement:
+        constraints:
+          - node.labels.zone == us_east_1
