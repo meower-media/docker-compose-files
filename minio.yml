@@ -6,9 +6,8 @@ services:
     env_file: /meower-data/env/s3.env
     volumes:
       - /meower-data/s3:/data
-    ports:
-      - "9000:9000"
-      - "9001:9001"
+    networks:
+      - meower_s3
     deploy:
       replicas: 1
       restart_policy:
@@ -32,9 +31,8 @@ services:
     env_file: /meower-data/env/s3.env
     volumes:
       - /meower-data/s3:/data
-    ports:
-      - "9000:9000"
-      - "9001:9001"
+    networks:
+      - meower_s3
     deploy:
       replicas: 1
       restart_policy:
