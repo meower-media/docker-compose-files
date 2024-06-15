@@ -1,6 +1,6 @@
 services:
   app:
-    image: 100.80.1.1:5000/uploads:1.1.5
+    image: 100.80.1.1:5000/uploads:1.1.6
     hostname: uploads
     env_file: /meower-data/env/uploads.env
     networks:
