@@ -1,7 +1,7 @@
 services:
   db:
     image: postgres
-    env_file: /meower-data/postgres/data.env
+    env_file: /meower-data/postgres/.env
     volumes:
       - /meower-data/postgres/data:/var/lib/postgresql/data
     ports:
