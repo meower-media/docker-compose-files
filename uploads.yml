@@ -1,19 +1,18 @@
 services:
-  app:
+  us_east:
     image: 100.80.1.1:5000/uploads:1.2.0
     hostname: uploads
-    volumes:
-      - /meower-data/env/uploads.env:/app/.env
+    env_file: /meower-data/uploads/.env
     networks:
-      - meower_uploads
+      - us_east_uploads
     ports:
       - target: 5500
         published: 5500
         mode: host
     deploy:
-      replicas: 2
+      replicas: 3
       restart_policy:
-        condition: on-failure
+        condition: any
         delay: 5s
         max_attempts: 3
         window: 120s
@@ -25,22 +24,21 @@ services:
         order: stop-first
       placement:
         constraints:
+          - node.labels.region == us_east
           - node.labels.uploads == yes
         preferences:
           - spread: node.labels.zone
 
-  cf:
+  us_east_cf:
     image: cloudflare/cloudflared
     command: tunnel run
-    env_file: /meower-data/env/uploads_cf.env
-    depends_on:
-      - app
+    env_file: /meower-data/uploads/cf.env
     networks:
-      - meower_uploads
+      - us_east_uploads
     deploy:
-      mode: global
+      replicas: 3
       restart_policy:
-        condition: on-failure
+        condition: any
         delay: 5s
         max_attempts: 3
         window: 120s
@@ -52,8 +50,67 @@ services:
         order: stop-first
       placement:
         constraints:
+          - node.labels.region == us_east
           - node.labels.uploads == yes
+        preferences:
+          - spread: node.labels.zone
+
+  us_west:
+    image: 100.80.1.1:5000/uploads:1.2.0
+    hostname: uploads
+    env_file: /meower-data/uploads/.env
+    networks:
+      - us_west_uploads
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: pause
+        monitor: 10s
+        order: stop-first
+      placement:
+        constraints:
+          - node.labels.region == us_west
+          - node.labels.uploads == yes
+        preferences:
+          - spread: node.labels.zone
+
+  us_west_cf:
+    image: cloudflare/cloudflared
+    command: tunnel run
+    env_file: /meower-data/uploads/cf.env
+    networks:
+      - us_west_uploads
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: pause
+        monitor: 10s
+        order: stop-first
+      placement:
+        constraints:
+          - node.labels.region == us_west
+          - node.labels.uploads == yes
+        preferences:
+          - spread: node.labels.zone
 
 networks:
-  meower_uploads:
-    external: true
+  us_east_uploads:
+    driver: overlay
+    attachable: true
+  us_west_uploads:
+    driver: overlay
+    attachable: true
