@@ -1,0 +1,30 @@
+services:
+  s3:
+    image: minio/minio
+    command: server /data --console-address ":9001"
+    env_file: /meower-data/s3/.env
+    volumes:
+      - /meower-data/s3/data:/data
+    ports:
+      - target: 9000
+        published: 9000
+        mode: host
+      - target: 9001
+        published: 9001
+        mode: host
+    deploy:
+      mode: global
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: pause
+        monitor: 10s
+        order: stop-first
+      placement:
+        constraints:
+          - node.labels.s3 == yes
