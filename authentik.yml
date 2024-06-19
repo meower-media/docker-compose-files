@@ -1,0 +1,78 @@
+services:
+  server:
+    image: ghcr.io/goauthentik/server:2024.4.2
+    hostname: authentik
+    command: server
+    env_file: /meower-data/sso/.env
+    volumes:
+      - /meower-data/sso/media:/media
+      - /meower-data/sso/templates:/templates
+    networks:
+      - sso
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: pause
+        monitor: 10s
+        order: stop-first
+      placement:
+        constraints:
+          - node.labels.zone == us_east_1
+  worker:
+    image: ghcr.io/goauthentik/server:2024.4.2
+    command: worker
+    env_file: /meower-data/sso/.env
+    volumes:
+      - /meower-data/sso/media:/media
+      - /meower-data/sso/certs:/certs
+      - /meower-data/sso/templates:/templates
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: pause
+        monitor: 10s
+        order: stop-first
+      placement:
+        constraints:
+          - node.labels.zone == us_east_1
+  cf:
+    image: cloudflare/cloudflared
+    command: tunnel run
+    env_file: /meower-data/sso/cf.env
+    networks:
+      - sso
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: pause
+        monitor: 10s
+        order: stop-first
+      placement:
+        constraints:
+          - node.labels.zone == us_east_1
+
+networks:
+  sso:
+    driver: overlay
+    attachable: true
