@@ -36,10 +36,7 @@ services:
     networks:
       - us_east_uploads
     depends_on:
-      us_east:
-        condition: service_healthy
-        restart: true
-        required: true
+      - us_east
     deploy:
       replicas: 3
       restart_policy:
@@ -92,10 +89,7 @@ services:
     networks:
       - us_west_uploads
     depends_on:
-      us_west:
-        condition: service_healthy
-        restart: true
-        required: true
+      - us_west
     deploy:
       replicas: 3
       restart_policy:
