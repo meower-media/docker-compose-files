@@ -1,0 +1,21 @@
+services:
+  app:
+    image: 100.80.1.1:5000/exporter:1.0.0
+    env_file: /meower-data/exporter/.env
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: pause
+        monitor: 10s
+        order: stop-first
+      placement:
+        constraints:
+          - node.labels.region == us_east
+          - node.labels.exporter == yes
