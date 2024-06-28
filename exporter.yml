@@ -2,6 +2,8 @@ services:
   app:
     image: 100.80.1.1:5000/exporter:1.0.0
     env_file: /meower-data/exporter/.env
+    volumes:
+      - /meower-data/exporter/output:/app/output
     deploy:
       replicas: 1
       restart_policy:
