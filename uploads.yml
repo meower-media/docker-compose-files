@@ -15,7 +15,6 @@ services:
       restart_policy:
         condition: any
         delay: 5s
-        max_attempts: 3
         window: 120s
       update_config:
         parallelism: 1
@@ -36,12 +35,16 @@ services:
     env_file: /meower-data/uploads/cf.env
     networks:
       - us_east_uploads
+    depends_on:
+      us_east:
+        condition: service_healthy
+        restart: true
+        required: true
     deploy:
       replicas: 3
       restart_policy:
         condition: any
         delay: 5s
-        max_attempts: 3
         window: 120s
       update_config:
         parallelism: 1
@@ -68,7 +71,6 @@ services:
       restart_policy:
         condition: any
         delay: 5s
-        max_attempts: 3
         window: 120s
       update_config:
         parallelism: 1
@@ -89,12 +91,16 @@ services:
     env_file: /meower-data/uploads/cf.env
     networks:
       - us_west_uploads
+    depends_on:
+      us_west:
+        condition: service_healthy
+        restart: true
+        required: true
     deploy:
       replicas: 3
       restart_policy:
         condition: any
         delay: 5s
-        max_attempts: 3
         window: 120s
       update_config:
         parallelism: 1
