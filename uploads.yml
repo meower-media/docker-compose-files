@@ -2,7 +2,8 @@ services:
   us_east:
     image: 100.80.1.1:5000/uploads:1.2.0
     hostname: uploads
-    env_file: /meower-data/uploads/.env
+    volumes:
+      - /meower-data/uploads/.env:/app/.env:ro
     networks:
       - us_east_uploads
     ports:
@@ -58,7 +59,8 @@ services:
   us_west:
     image: 100.80.1.1:5000/uploads:1.2.0
     hostname: uploads
-    env_file: /meower-data/uploads/.env
+    volumes:
+      - /meower-data/uploads/.env:/app/.env:ro
     networks:
       - us_west_uploads
     deploy:
