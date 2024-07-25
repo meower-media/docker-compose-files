@@ -2,9 +2,7 @@ services:
   keydb:
     image: eqalpha/keydb
     volumes:
-      - "/meower-data/keydb/keydb.conf:/etc/keydb/keydb.conf"
-      - "/meower-data/keydb/logs:/etc/keydb/logs"
-      - "/meower-data/keydb/dump.rdb:/data/dump.rdb"
+      - "/meower-data/keydb:/etc/keydb"
     networks:
       - host
     deploy:
