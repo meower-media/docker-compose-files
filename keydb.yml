@@ -1,16 +1,12 @@
 services:
   keydb:
     image: eqalpha/keydb
-    hostname: keydb
     volumes:
-      - "/meower-data/env/keydb.conf:/etc/keydb/keydb.conf"
-      - "/meower-data/logs/keydb:/etc/keydb/logs"
+      - "/meower-data/keydb/keydb.conf:/etc/keydb/keydb.conf"
+      - "/meower-data/keydb/logs:/etc/keydb/logs"
+      - "/meower-data/keydb/dump.rdb:/data/dump.rdb"
     networks:
-      - meower_keydb
-    ports:
-      - target: 6379
-        published: 6379
-        mode: host
+      - host
     deploy:
       mode: global
       restart_policy:
@@ -26,5 +22,6 @@ services:
         order: stop-first
 
 networks:
-  meower_keydb:
+  host:
+    name: host
     external: true
