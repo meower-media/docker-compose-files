@@ -1,6 +1,6 @@
 services:
   us_east:
-    image: 100.80.1.1:5000/uploads:1.5.0
+    image: 100.80.1.1:5000/uploads:1.6.0
     hostname: uploads
     volumes:
       - /meower-data/uploads/.env:/app/.env:ro
@@ -57,7 +57,7 @@ services:
           - spread: node.labels.zone
 
   us_west:
-    image: 100.80.1.1:5000/uploads:1.5.0
+    image: 100.80.1.1:5000/uploads:1.6.0
     hostname: uploads
     volumes:
       - /meower-data/uploads/.env:/app/.env:ro
