@@ -21,3 +21,6 @@ services:
         failure_action: pause
         monitor: 10s
         order: stop-first
+      placement:
+        constraints:
+          - node.labels.postgres == yes
