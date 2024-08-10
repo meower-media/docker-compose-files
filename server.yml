@@ -21,7 +21,7 @@ services:
         order: stop-first
       placement:
         constraints:
-          - node.labels.region == us_east
+          - node.labels.region == us_west
           - node.labels.server == yes
         preferences:
           - spread: node.labels.zone
