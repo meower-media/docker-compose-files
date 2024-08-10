@@ -1,0 +1,25 @@
+services:
+  db:
+    image: mongo
+    volumes:
+      - /meower-data/mongo:/data/db
+    ports:
+      - target: 27017
+        published: 27017
+        mode: host
+    deploy:
+      mode: global
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: pause
+        monitor: 10s
+        order: stop-first
+      placement:
+        constraints:
+          - node.labels.mongo == yes
