@@ -21,6 +21,3 @@ services:
         failure_action: pause
         monitor: 10s
         order: stop-first
-      placement:
-        constraints:
-          - node.labels.zone == us_east_1
