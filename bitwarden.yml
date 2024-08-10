@@ -1,0 +1,44 @@
+services:
+  server:
+    image: vaultwarden/server:latest
+    hostname: bitwarden
+    env_file: /meower-data/bitwarden/.env
+    volumes:
+      - /meower-data/bitwarden/data:/data
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: pause
+        monitor: 10s
+        order: stop-first
+      placement:
+        constraints:
+          - node.labels.bitwarden == yes
+
+  cf:
+    image: cloudflare/cloudflared
+    command: tunnel run
+    env_file: /meower-data/bitwarden/cf.env
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: pause
+        monitor: 10s
+        order: stop-first
+      placement:
+        constraints:
+          - node.labels.bitwarden == yes
