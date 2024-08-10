@@ -6,12 +6,9 @@ services:
       - /meower-data/server/.env:/app/.env:ro
     networks:
       - us_west_server
-    ports:
-      - target: 5500
-        published: 5500
-        mode: host
+      - us_west_uploads
     deploy:
-      replicas: 3
+      replicas: 1
       restart_policy:
         condition: any
         delay: 5s
@@ -38,7 +35,7 @@ services:
     depends_on:
       - us_west
     deploy:
-      replicas: 3
+      replicas: 2
       restart_policy:
         condition: any
         delay: 5s
@@ -60,3 +57,5 @@ networks:
   us_west_server:
     driver: overlay
     attachable: true
+  us_west_uploads:
+    external: true

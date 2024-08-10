@@ -63,6 +63,7 @@ services:
       - /meower-data/uploads/.env:/app/.env:ro
     networks:
       - us_west_uploads
+      - us_west_server
     deploy:
       replicas: 3
       restart_policy:
@@ -116,3 +117,5 @@ networks:
   us_west_uploads:
     driver: overlay
     attachable: true
+  us_west_server:
+    external: true
