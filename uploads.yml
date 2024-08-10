@@ -62,8 +62,8 @@ services:
     volumes:
       - /meower-data/uploads/.env:/app/.env:ro
     networks:
-      - us_west_uploads
-      - us_west_server
+      - uploads_us_west
+      - server_us_west
     deploy:
       replicas: 3
       restart_policy:
@@ -88,7 +88,7 @@ services:
     command: tunnel run
     env_file: /meower-data/uploads/cf.env
     networks:
-      - us_west_uploads
+      - uploads_us_west
     depends_on:
       - us_west
     deploy:
@@ -114,7 +114,7 @@ networks:
   us_east_uploads:
     driver: overlay
     attachable: true
-  us_west_uploads:
+  uploads_us_west:
     external: true
-  us_west_server:
+  server_us_west:
     external: true
