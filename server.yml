@@ -55,7 +55,6 @@ services:
 
 networks:
   us_west_server:
-    driver: overlay
-    attachable: true
+    external: true
   us_west_uploads:
     external: true
