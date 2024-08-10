@@ -2,6 +2,7 @@ services:
   db:
     image: mongo
     volumes:
+      - /meower-data/mongo/mongo.conf:/etc/mongo.conf:ro
       - /meower-data/mongo:/data/db
     ports:
       - target: 27017
