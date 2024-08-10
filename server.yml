@@ -1,0 +1,62 @@
+services:
+  us_west:
+    image: ghcr.io/meower-media-co/server:latest
+    hostname: server
+    volumes:
+      - /meower-data/server/.env:/app/.env:ro
+    networks:
+      - us_west_server
+    ports:
+      - target: 5500
+        published: 5500
+        mode: host
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: any
+        delay: 5s
+        window: 120s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: pause
+        monitor: 10s
+        order: stop-first
+      placement:
+        constraints:
+          - node.labels.region == us_east
+          - node.labels.server == yes
+        preferences:
+          - spread: node.labels.zone
+
+  us_west_cf:
+    image: cloudflare/cloudflared
+    command: tunnel run
+    env_file: /meower-data/server/cf.env
+    networks:
+      - us_west_server
+    depends_on:
+      - us_west
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: any
+        delay: 5s
+        window: 120s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: pause
+        monitor: 10s
+        order: stop-first
+      placement:
+        constraints:
+          - node.labels.region == us_west
+          - node.labels.server == yes
+        preferences:
+          - spread: node.labels.zone
+
+networks:
+  us_west_server:
+    driver: overlay
+    attachable: true
