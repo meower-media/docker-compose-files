@@ -22,7 +22,7 @@ services:
         order: stop-first
       placement:
         constraints:
-          - node.labels.zone == us_east_1
+          - node.labels.sso == yes
   worker:
     image: ghcr.io/goauthentik/server:2024.4.2
     command: worker
@@ -46,7 +46,7 @@ services:
         order: stop-first
       placement:
         constraints:
-          - node.labels.zone == us_east_1
+          - node.labels.sso == yes
   cf:
     image: cloudflare/cloudflared
     command: tunnel run
@@ -66,4 +66,4 @@ services:
         order: stop-first
       placement:
         constraints:
-          - node.labels.zone == us_east_1
+          - node.labels.sso == yes
