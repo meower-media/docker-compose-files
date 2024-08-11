@@ -1,58 +1,4 @@
 services:
-  us_east:
-    image: ghcr.io/meower-media-co/uploads:latest
-    hostname: uploads
-    volumes:
-      - /meower-data/uploads/.env:/app/.env:ro
-    networks:
-      - uploads_us_east
-      - server_us_west
-    deploy:
-      replicas: 3
-      restart_policy:
-        condition: any
-        delay: 5s
-        window: 120s
-      update_config:
-        parallelism: 1
-        delay: 10s
-        failure_action: pause
-        monitor: 10s
-        order: stop-first
-      placement:
-        constraints:
-          - node.labels.region == us_east
-          - node.labels.uploads == yes
-        preferences:
-          - spread: node.labels.zone
-
-  us_east_cf:
-    image: cloudflare/cloudflared
-    command: tunnel run
-    env_file: /meower-data/uploads/cf.env
-    networks:
-      - uploads_us_east
-    depends_on:
-      - us_east
-    deploy:
-      replicas: 3
-      restart_policy:
-        condition: any
-        delay: 5s
-        window: 120s
-      update_config:
-        parallelism: 1
-        delay: 10s
-        failure_action: pause
-        monitor: 10s
-        order: stop-first
-      placement:
-        constraints:
-          - node.labels.region == us_east
-          - node.labels.uploads == yes
-        preferences:
-          - spread: node.labels.zone
-
   us_west:
     image: ghcr.io/meower-media-co/uploads:latest
     hostname: uploads
@@ -107,10 +53,64 @@ services:
         preferences:
           - spread: node.labels.zone
 
+  au_west:
+    image: ghcr.io/meower-media-co/uploads:latest
+    hostname: uploads
+    volumes:
+      - /meower-data/uploads/.env:/app/.env:ro
+    networks:
+      - uploads_au_west
+      - server_us_west
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: any
+        delay: 5s
+        window: 120s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: pause
+        monitor: 10s
+        order: stop-first
+      placement:
+        constraints:
+          - node.labels.region == au_west
+          - node.labels.uploads == yes
+        preferences:
+          - spread: node.labels.zone
+
+  au_west_cf:
+    image: cloudflare/cloudflared
+    command: tunnel run
+    env_file: /meower-data/uploads/cf.env
+    networks:
+      - uploads_au_west
+    depends_on:
+      - au_west
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: any
+        delay: 5s
+        window: 120s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: pause
+        monitor: 10s
+        order: stop-first
+      placement:
+        constraints:
+          - node.labels.region == au_west
+          - node.labels.uploads == yes
+        preferences:
+          - spread: node.labels.zone
+
 networks:
-  uploads_us_east:
-    external: true
   uploads_us_west:
+    external: true
+  uploads_au_west:
     external: true
   server_us_west:
     external: true
