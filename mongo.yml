@@ -1,6 +1,7 @@
 services:
   db:
     image: mongo
+    command: --config /etc/mongo.conf
     volumes:
       - /meower-data/mongo/mongo.conf:/etc/mongo.conf:ro
       - /meower-data/mongo:/data/db
