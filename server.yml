@@ -1,6 +1,6 @@
 services:
   us_west:
-    image: ghcr.io/meower-media-co/server:latest
+    image: ghcr.io/meower-media/server:latest
     hostname: server
     volumes:
       - /meower-data/server/.env:/app/.env:ro
