@@ -5,6 +5,8 @@ services:
     env_file: /meower-data/s3/.env
     volumes:
       - /meower-data/s3/data:/data
+      - /meower-data/certs/minio.crt:/root/.minio/certs/public.crt:ro
+      - /meower-data/certs/minio.key:/root/.minio/certs/private.key:ro
     ports:
       - target: 9000
         published: 9000
