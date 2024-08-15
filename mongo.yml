@@ -5,6 +5,7 @@ services:
     volumes:
       - /meower-data/mongo/mongo.conf:/etc/mongo.conf:ro
       - /meower-data/meower-ca.pem:/etc/meower-ca.pem:ro
+      - /meower-data/mongo/mongo-server.pem:/etc/mongo-server.pem:ro
       - /meower-data/mongo:/data/db
     ports:
       - target: 27017
