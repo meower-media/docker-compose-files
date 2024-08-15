@@ -1,13 +1,21 @@
 services:
   s3:
     image: minio/minio
-    command: server /data --console-address ":9001"
+    command: >
+      sh -c "
+        minio server /data --address :8000 &
+        minio server /data --address :9000 --console-address ":9001" --cert /etc/minio.crt --key /etc/minio.key
+      "
+    command: server /data 
     env_file: /meower-data/s3/.env
     volumes:
       - /meower-data/s3/data:/data
-      - /meower-data/certs/minio.crt:/root/.minio/certs/public.crt:ro
-      - /meower-data/certs/minio.key:/root/.minio/certs/private.key:ro
+      - /meower-data/certs/minio.crt:/etc/minio.crt:ro
+      - /meower-data/certs/minio.key:/etc/minio.key:ro
     ports:
+      - target: 8000
+        published: 8000
+        mode: host
       - target: 9000
         published: 9000
         mode: host
