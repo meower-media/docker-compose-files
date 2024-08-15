@@ -1,11 +1,7 @@
 services:
   s3:
     image: minio/minio
-    command: >
-      sh -c "
-        minio server /data --address :8000 &
-        minio server /data --address :9000 --console-address ":9001" --cert /etc/minio.crt --key /etc/minio.key
-      "
+    command: server /data --address :8000
     command: server /data 
     env_file: /meower-data/s3/.env
     volumes:
