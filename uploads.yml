@@ -2,6 +2,7 @@ services:
   us_west:
     image: ghcr.io/meower-media-co/uploads:latest
     hostname: uploads
+    entrypoint: sh -c "update-ca-certificates -f && exec /Meower-Uploads"
     volumes:
       - /meower-data/uploads/.env:/app/.env:ro
       - /meower-data/certs/meower-ca.pem:/etc/ssl/certs/meower-ca.pem:ro
