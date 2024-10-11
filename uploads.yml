@@ -1,8 +1,8 @@
 services:
   us_west:
-    image: ghcr.io/meower-media-co/uploads:latest
+    image: ghcr.io/meower-media/uploads:latest
     hostname: uploads
-    entrypoint: sh -c "update-ca-certificates -f && exec /Meower-Uploads"
+    entrypoint: /Meower-Uploads
     volumes:
       - /meower-data/uploads/.env:/app/.env:ro
     networks:
