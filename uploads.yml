@@ -5,10 +5,8 @@ services:
     entrypoint: sh -c "update-ca-certificates -f && exec /Meower-Uploads"
     volumes:
       - /meower-data/uploads/.env:/app/.env:ro
-      - /meower-data/certs/meower-ca.pem:/etc/ssl/certs/meower-ca.pem:ro
     networks:
       - uploads_us_west
-      - server_us_west
     deploy:
       replicas: 3
       restart_policy:
@@ -26,7 +24,7 @@ services:
           - node.labels.region == us_west
           - node.labels.uploads == yes
         preferences:
-          - spread: node.labels.zone
+          - spread: node.id
 
   us_west_cf:
     image: cloudflare/cloudflared
@@ -53,10 +51,8 @@ services:
           - node.labels.region == us_west
           - node.labels.uploads == yes
         preferences:
-          - spread: node.labels.zone
+          - spread: node.id
 
 networks:
   uploads_us_west:
-    external: true
-  server_us_west:
     external: true
