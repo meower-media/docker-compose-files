@@ -4,7 +4,7 @@ services:
     hostname: uploads
     entrypoint: /Meower-Uploads
     volumes:
-      - /meower-data/uploads/.env:/app/.env:ro
+      - /meower-data/uploads/.env:/.env:ro
     networks:
       - uploads_us_west
     deploy:
