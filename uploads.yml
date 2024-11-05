@@ -1,8 +1,9 @@
+version: '3.8'
+
 services:
   us_west:
     image: ghcr.io/meower-media/uploads:latest
     hostname: uploads
-    entrypoint: /Meower-Uploads
     volumes:
       - /meower-data/uploads/.env:/.env:ro
       - /meower-data/uploads/ingest:/ingest  # tmpfs for good performance
