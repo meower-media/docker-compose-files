@@ -5,8 +5,8 @@ services:
     image: ghcr.io/meower-media/uploads:latest
     hostname: uploads
     volumes:
-      - /meower-data/uploads/.env:/.env:ro
-      - /meower-data/uploads/ingest:/ingest  # tmpfs for good performance
+      - /meower-data/uploads/.env:/app/.env:ro
+      - /meower-data/uploads/ingest:/app/ingest  # tmpfs for good performance
     networks:
       - uploads_us_west
     deploy:
