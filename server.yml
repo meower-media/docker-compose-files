@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   us_west:
     image: ghcr.io/meower-media/server:latest
